@@ -43,68 +43,72 @@ abstract class TbBaseMenu extends CMenu
 			echo CHtml::openTag('ul', $this->htmlOptions);
 
 			$count = 0;
-			foreach ($items as $item)
-			{
-				$count++;
+                        if (is_array($items)) {
+                            foreach ($items as $item)
+                            {
+                                    $count++;
 
-				if (isset($item['divider']))
-					echo '<li class="'.$this->getDividerCssClass().'"></li>';
-				else
-				{
-					$options = isset($item['itemOptions']) ? $item['itemOptions'] : array();
-					$classes = array();
+                                    if (isset($item['divider']))
+                                            echo '<li class="'.$this->getDividerCssClass().'"></li>';
+                                    else
+                                    {
+                                            $options = isset($item['itemOptions']) ? $item['itemOptions'] : array();
+                                            $classes = array();
 
-					if ($item['active'] && $this->activeCssClass != '')
-						$classes[] = $this->activeCssClass;
+                                            if ($item['active'] && $this->activeCssClass != '')
+                                                    $classes[] = $this->activeCssClass;
 
-					if ($count === 1 && $this->firstItemCssClass !== null)
-						$classes[] = $this->firstItemCssClass;
+                                            if ($count === 1 && $this->firstItemCssClass !== null)
+                                                    $classes[] = $this->firstItemCssClass;
 
-					if ($count === $n && $this->lastItemCssClass !== null)
-						$classes[] = $this->lastItemCssClass;
+                                            if ($count === $n && $this->lastItemCssClass !== null)
+                                                    $classes[] = $this->lastItemCssClass;
 
-					if ($this->itemCssClass !== null)
-						$classes[] = $this->itemCssClass;
+                                            if ($this->itemCssClass !== null)
+                                                    $classes[] = $this->itemCssClass;
 
-					if (isset($item['items']))
-						$classes[] = $this->getDropdownCssClass();
+                                            if (isset($item['items']))
+                                                    $classes[] = $this->getDropdownCssClass();
 
-					if (isset($item['disabled']))
-						$classes[] = 'disabled';
+                                            if (isset($item['disabled']))
+                                                    $classes[] = 'disabled';
 
-					if (!empty($classes))
-					{
-						$classes = implode(' ', $classes);
-						if (!empty($options['class']))
-							$options['class'] .= ' '.$classes;
-						else
-							$options['class'] = $classes;
-					}
+                                            if (!empty($classes))
+                                            {
+                                                    $classes = implode(' ', $classes);
+                                                    if (!empty($options['class']))
+                                                            $options['class'] .= ' '.$classes;
+                                                    else
+                                                            $options['class'] = $classes;
+                                            }
 
-					echo CHtml::openTag('li', $options);
+                                            echo CHtml::openTag('li', $options);
 
-					$menu = $this->renderMenuItem($item);
+                                            $menu = $this->renderMenuItem($item);
 
-					if (isset($this->itemTemplate) || isset($item['template']))
-					{
-						$template = isset($item['template']) ? $item['template'] : $this->itemTemplate;
-						echo strtr($template, array('{menu}' => $menu));
-					}
-					else
-						echo $menu;
+                                            if (isset($this->itemTemplate) || isset($item['template']))
+                                            {
+                                                    $template = isset($item['template']) ? $item['template'] : $this->itemTemplate;
+                                                    echo strtr($template, array('{menu}' => $menu));
+                                            }
+                                            else
+                                                    echo $menu;
 
-					if (isset($item['items']) && !empty($item['items']))
-					{
-						$this->controller->widget('bootstrap.widgets.TbDropdown', array(
-							'encodeLabel'=>$this->encodeLabel,
-							'htmlOptions'=>isset($item['submenuOptions']) ? $item['submenuOptions'] : $this->submenuHtmlOptions,
-							'items'=>$item['items'],
-						));
-					}
+                                            if (isset($item['items']) && !empty($item['items']))
+                                            {
+                                                    $this->controller->widget('bootstrap.widgets.TbDropdown', array(
+                                                            'encodeLabel'=>$this->encodeLabel,
+                                                            'htmlOptions'=>isset($item['submenuOptions']) ? $item['submenuOptions'] : $this->submenuHtmlOptions,
+                                                            'items'=>$item['items'],
+                                                    ));
+                                            }
 
-					echo '</li>';
-				}
-			}
+                                            echo '</li>';
+                                    }
+                            }
+                        } else {
+                            echo $items;
+                        }
 
 			echo '</ul>';
 		}
@@ -163,6 +167,7 @@ abstract class TbBaseMenu extends CMenu
 	 */
 	protected function normalizeItems($items, $route, &$active)
 	{
+            if (is_array($items)) {
 		foreach ($items as $i => $item)
 		{
 			if (!is_array($item))
@@ -194,5 +199,8 @@ abstract class TbBaseMenu extends CMenu
 		}
 
 		return parent::normalizeItems($items, $route, $active);
+            } else {
+                return $items;
+            }
 	}
 }
