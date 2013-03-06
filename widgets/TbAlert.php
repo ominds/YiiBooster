@@ -115,7 +115,7 @@ class TbAlert extends CWidget
 
 				echo CHtml::openTag('div', $alert['htmlOptions']);
 
-				if ($this->closeText !== false && !isset($alert['closeText']))
+				if (isset($alert['closeText']) && $this->closeText !== false)
 					$alert['closeText'] = $this->closeText;
 				else
 					$alert['closeText'] = false;
