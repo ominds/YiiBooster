@@ -1,9 +1,9 @@
 <?php
-/**
- * TbButton class file.
+/*##  TbButton class file.
+ *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
- * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php)
  * @package bootstrap.widgets
  * @since 0.9.10
  */
@@ -15,26 +15,26 @@
 class TbButton extends CWidget
 {
 	// Button callback types.
-	const BUTTON_LINK = 'link';
-	const BUTTON_BUTTON = 'button';
-	const BUTTON_SUBMIT = 'submit';
+	const BUTTON_LINK       = 'link';
+	const BUTTON_BUTTON     = 'button';
+	const BUTTON_SUBMIT     = 'submit';
 	const BUTTON_SUBMITLINK = 'submitLink';
-	const BUTTON_RESET = 'reset';
-	const BUTTON_AJAXLINK = 'ajaxLink';
+	const BUTTON_RESET      = 'reset';
+	const BUTTON_AJAXLINK   = 'ajaxLink';
 	const BUTTON_AJAXBUTTON = 'ajaxButton';
 	const BUTTON_AJAXSUBMIT = 'ajaxSubmit';
 
 	// Button types.
 	const TYPE_PRIMARY = 'primary';
-	const TYPE_INFO = 'info';
+	const TYPE_INFO    = 'info';
 	const TYPE_SUCCESS = 'success';
 	const TYPE_WARNING = 'warning';
-	const TYPE_DANGER = 'danger';
+	const TYPE_DANGER  = 'danger';
 	const TYPE_INVERSE = 'inverse';
-	const TYPE_LINK = 'link';
+	const TYPE_LINK    = 'link';
 
 	// Button sizes.
-	const SIZE_MINI = 'mini';
+	const SIZE_MINI  = 'mini';
 	const SIZE_SMALL = 'small';
 	const SIZE_LARGE = 'large';
 
@@ -110,18 +110,22 @@ class TbButton extends CWidget
 	 * @since 0.9.11
 	 */
 	public $dropdownOptions = array();
-
+    /**
+     * @var bool is visible
+     */
+    public $visible = true;
+    
 	/**
-	 * @var whether the button is visible or not
-	 * @since 0.9.11
-	 */
-	public $visible = true;
-
-	/**
+	 *### .init()
+         *
 	 * Initializes the widget.
 	 */
 	public function init()
 	{
+        if (false === $this->visible) {
+            return;
+        }
+    
 		$classes = array('btn');
 
 		$validTypes = array(self::TYPE_LINK, self::TYPE_PRIMARY, self::TYPE_INFO, self::TYPE_SUCCESS,
@@ -190,12 +194,16 @@ class TbButton extends CWidget
 	}
 
 	/**
+	 *### .run()
+   *
 	 * Runs the widget.
 	 */
 	public function run()
 	{
-		if(!$this->visible)
-				return false;
+        if (false === $this->visible) {
+            return;
+        }
+    
 		echo $this->createButton();
 
 		if ($this->hasDropdown())
@@ -209,7 +217,10 @@ class TbButton extends CWidget
 	}
 
 	/**
+	 *### .createButton()
+   *
 	 * Creates the button element.
+   *
 	 * @return string the created button.
 	 */
 	protected function createButton()
@@ -239,7 +250,9 @@ class TbButton extends CWidget
 				return CHtml::htmlButton($this->label, $this->htmlOptions);
 
 			case self::BUTTON_AJAXSUBMIT:
-				$this->ajaxOptions['type'] = 'POST';
+				$this->ajaxOptions['type'] = isset($this->ajaxOptions['type'])
+					? $this->ajaxOptions['type']
+					: 'POST';
 				$this->ajaxOptions['url'] = $this->url;
 				$this->htmlOptions['type'] = 'submit';
 				$this->htmlOptions['ajax'] = $this->ajaxOptions;
@@ -252,7 +265,10 @@ class TbButton extends CWidget
 	}
 
 	/**
+	 *### .hasDropdown()
+   *
 	 * Returns whether the button has a dropdown.
+   *
 	 * @return bool the result.
 	 */
 	protected function hasDropdown()

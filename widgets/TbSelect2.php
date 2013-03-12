@@ -1,15 +1,16 @@
 <?php
-/**
- * TbSelect2.php
+/*##  TbSelect2 class file.
  *
- * @author: antonio ramirez <antonio@clevertech.biz>
- * Date: 11/4/12
- * Time: 9:11 PM
+ * @author Antonio Ramirez <antonio@clevertech.biz>
+ * @copyright Copyright &copy; Clevertech 2012-
+ * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php) 
+ * @package bootstrap.widgets.input
  */
 class TbSelect2 extends CInputWidget
 {
   /**
-   * @var TbActiveForm when created via TbActiveForm, this attribute is set to the form that renders the widget
+   * @var TbActiveForm when created via TbActiveForm.
+   * This attribute is set to the form that renders the widget
    * @see TbActionForm->inputRow
    */
   public $form;
@@ -33,6 +34,8 @@ class TbSelect2 extends CInputWidget
   public $options;
 
   /**
+   *### .init()
+   *
    * Initializes the widget.
    */
   public function init()
@@ -42,6 +45,8 @@ class TbSelect2 extends CInputWidget
   }
 
   /**
+   *### .run()
+   *
    * Runs the widget.
    */
   public function run()
@@ -68,6 +73,8 @@ class TbSelect2 extends CInputWidget
   }
 
   /**
+   *### .registerClientScript()
+   *
    * Registers required client script for bootstrap select2. It is not used through bootstrap->registerPlugin
    * in order to attach events if any
    */
